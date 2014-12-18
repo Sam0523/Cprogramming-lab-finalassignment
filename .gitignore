@@ -1,0 +1,12 @@
+#buffer
+*.swp
+
+#backup
+*~
+*.save
+
+#object
+*.[oa]
+
+#executable
+*.test
