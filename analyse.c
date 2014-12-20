@@ -1,87 +1,60 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <ctype.h>
+#include <string.h>
 #include "text_analysis.h"
 
 void analyse(FILE* stream)
 {
-	// current state in the text
-	enum
+	// input buffer
+	char* buf;
+
+	while ((buf = fgetline(stream)) != NULL)
 	{
-		OUT_OF_SENTENCE,
-		END_OF_SENTENCE_UNSURE,	// meet '.', '!' or '?'
-		OUT_OF_WORD,		// out of words, in a sentence
-		END_OF_WORD_UNSURE,	// meet '-' in word
-		IN_WORD,		// in a word, in a sentence
-	} current_state = OUT_OF_SENTENCE;
+		char* new = strtok(buf, DELIMITER);
 
-	// pointer to a inputing word, and buffer size of word.raw
-	word* new_word = NULL;
-	size_t buf_size = 0;
-
-	// small buffer
-	char ch;
-
-	// pointer to the end of inputing word
-	char* wordptr = NULL;
-
-	while ((ch = getc(stream)) != EOF)
-	{
-		if (wordptr - new_word.raw == buf_size)
-			// buffer is full, enlarge buffer
+		while (new != NULL)
 		{
-			word* new_buf = (word*) realloc(new_word,
-					sizeof(word) + buf_size + BUF_SIZE_STEP);
+			char *ptr, *next;
 
-			if (new_buf == NULL)
-				// realloc failed
+			for (ptr = new, next = new  + 1;
+					*next != '\0';
+					ptr++, next++)
 			{
-				perror("text-analyse");
-				free(new_word);
-				exit(1);
+				*ptr = tolower(*ptr);
+
+				// break into 2 (or more) words if more
+				// than 2 hyphens appears in a row
+				if (*ptr == '-' && *next == '-')
+				{
+					*ptr-- = '\0';
+					// now ptr points to the last
+					// character of new, i.e.
+					// ptr == new + strlen(new) - 1
+
+					// skip all hyphens in a row
+					while (*next++ == '-');
+
+					break;
+				}
 			}
-			else
-				// succeed
+			*ptr = tolower(*ptr);
+			/*
+			ptr = new + strlen(new) - 1;
+			next = "";
+			*/
+
+			if (*ptr == '.' || *ptr == '?' || *ptr == '!')
 			{
-				buf_size += BUF_SIZE_STEP;
-				wordptr = new_buf.raw + (wordptr - new_word.raw);
-				new_word = new_buf;
+				N_s++;
+				while (*ptr == '.' || *ptr == '?' || *ptr == '!')
+					*ptr-- = '\0';
 			}
-		}
 
-		if (isalnum(ch))
-		{
-			current_state = IN_WORD;
-			*ptr++ = tolower(ch);
-		}
-		else switch(ch)
-		{
-			case '.': case '!': case '?':
-				if (current_state >= OUT_OF_WORD)
-					current_state = END_OF_SENTENCE_UNSURE;
-				break;
-			case '-':
-				if (current_state == IN_WORD)
-					current_state = END_OF_WORD_UNSURE;
-				else if (current_state == END_OF_WORD_UNSURE)
-					current_state = OUT_OF_WORD;
-				break;
-			case '\"': case ']': case ')': case '>':
-				if (current_state == END_OF_SENTENCE_UNSURE)
-					// end of sentence
-					; // TODO
-				break;
-			case '\n':
-				if (current_state == IN_WORD)
-					// end of word
-					; // TODO
-			case ' ': case '\t':
-				if (current_state >= END_OF_WORD_UNSURE)
-					// end of word
-					; // TODO
-				break;
-		}
+			insert(&root, new);
 
-		if (current_state > OUT_OF_WORD)
-			// end of word
-			; // TODO
-
+			new = strtok(*next == '\0' ? NULL : next, DELIMITER);
+		}
+		free(buf);
+	}
+}

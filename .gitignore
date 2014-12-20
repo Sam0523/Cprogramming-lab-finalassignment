@@ -1,4 +1,4 @@
-#buffer
+#swap
 *.swp
 
 #backup
@@ -6,7 +6,11 @@
 *.save
 
 #object
-*.[oa]
+*.o
 
 #executable
 *.test
+text-analyse
+
+#test text
+*.in

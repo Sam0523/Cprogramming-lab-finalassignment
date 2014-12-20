@@ -3,26 +3,50 @@
 #include <string.h>
 #include "text_analysis.h"
 
-void insert(BSTnode** ptr, word* data)
+void insert(BSTnode** ptr, char* new_word)
 {
 	if (*ptr == NULL)
 	{
+		word* new = (word*)malloc(sizeof(word) + strlen(new_word) + 1);
+		new->count = 1;
+		new->syllable = count_syllables(new_word);
+		strcpy(new->raw, new_word);
+
 		*ptr = (BSTnode*)malloc(sizeof(BSTnode));
-		(*ptr)->data = data;
+		(*ptr)->data = new;
 		(*ptr)->lchild = NULL;
 		(*ptr)->rchild = NULL;
+
+		N_u++;
+		N_w++;
+		N_c += ISHARD(new);
+		N_x += new->syllable;
 	}
-	else if (strcmp(data->raw, (*ptr)->data->raw) > 0)
+	else if (strcmp(new_word, (*ptr)->data->raw) > 0)
 	{
-		insert(&(*ptr)->rchild, data);
+		insert(&(*ptr)->rchild, new_word);
 	}
-	else if (strcmp(data->raw, (*ptr)->data->raw) < 0)
+	else if (strcmp(new_word, (*ptr)->data->raw) < 0)
 	{
-		insert(&(*ptr)->lchild, data);
+		insert(&(*ptr)->lchild, new_word);
 	}
 	else
 	{
 		(*ptr)->data->count++;
+		N_w++;
+		N_c += ISHARD((*ptr)->data);
+		N_x += (*ptr)->data->syllable;
+	}
+}
+
+void destory(BSTnode **ptr)
+{
+	if (*ptr != NULL)
+	{
+		destory(&(*ptr)->lchild);
+		destory(&(*ptr)->rchild);
+		free(*ptr);
+		*ptr = NULL;
 	}
 }
 /*
@@ -79,15 +103,34 @@ BSTnode* delete(BSTnode** ptr, void* key)
 
 	return *ptr;
 }
+*/
 
+#ifdef DEBUG
 void inorder(BSTnode* ptr)
 {
 	if (ptr->lchild != NULL)
 		inorder(ptr->lchild);
 
-	printf("%d\n", ptr->data);
+	puts(ptr->data->raw);
 
 	if (ptr->rchild != NULL)
 		inorder(ptr->rchild);
 }
-*/
+#endif // DEBUG
+
+#ifdef TEST_BST
+#define TEST_SIZE 10
+#include "main.h"
+
+int main(void)
+{
+	char word[TEST_SIZE];
+
+	while (printf("Input a word:\n"), scanf("%s", word) == 1)
+		insert(&root, word);
+
+	inorder(root);
+
+	return 0;
+}
+#endif // TEST_BST

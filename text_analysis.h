@@ -19,11 +19,12 @@ typedef struct node
 #define ISHARD(wordptr) ((wordptr)->syllable > 2)
 #define HARDEST_WORD_SUM 10
 #define MOST_FREQUENT_WORD_SUM 10
-#define BUF_SIZE_STEP 10
+#define BUF_INIT_SIZE 10
+#define DELIMITER " ,;:()[]{}<>\"\n\t@#$%^&*_-+="// line-wrapping disabled
 
 // read a word (seprated by space) from stream and return it
 void analyse(FILE* stream);
-word* fgetword(FILE* stream);
+char* fgetline(FILE* stream);
 int count_syllables(char *word);
 
 // the binary search tree to store words

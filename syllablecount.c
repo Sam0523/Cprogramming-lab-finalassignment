@@ -47,7 +47,7 @@ int count_syllables(char *word)
 	return numVowels;
 }
 
-#ifdef TEST
+#ifdef TEST_SYLLABLECOUNT
 int main(int argc, char *argv[])
 {
 	if (argc<2)
@@ -55,5 +55,5 @@ int main(int argc, char *argv[])
 	else	
 		printf("\nWe got %d syllables from [%s]\n",count_syllables(argv[1]),argv[1]);
 }
-#endif // TEST
+#endif // TEST_SYLLABLECOUNT
 
