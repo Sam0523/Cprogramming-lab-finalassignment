@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "text_analysis.h"
+#define BUF_INIT_SIZE 10
 
 char* fgetline(FILE* stream)
 {
@@ -26,15 +26,15 @@ char* fgetline(FILE* stream)
 
 			buf = realloc(buf, buf_size * sizeof(char));
 
-			if (fgets(buf + len, buf_size/2, stream) == NULL)
+			if (fgets(buf + len, buf_size/2 + 1, stream) == NULL)
 				break;
 
 			len = strlen(buf);
 		}
 		if (buf[len - 1] == '\n')
-			buf[len--] = '\0';
+			buf[len - 1] = '\0';
 
-		rval = realloc(buf, len + 1);
+		rval = realloc(buf, len);
 	}
 	if (ferror(stream))
 	{

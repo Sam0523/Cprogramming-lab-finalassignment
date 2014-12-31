@@ -4,6 +4,7 @@
 #backup
 *~
 *.save
+*.old
 
 #object
 *.o
@@ -11,6 +12,9 @@
 #executable
 *.test
 text-analyse
+
+#ctags
+tags
 
 #test text
 *.in
