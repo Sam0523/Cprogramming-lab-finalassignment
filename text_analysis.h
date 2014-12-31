@@ -19,7 +19,7 @@ typedef struct node
 #define ISHARD(wordptr) ((wordptr)->syllable > 2)
 #define HARDEST_WORDS 10
 #define FREQENT_HARDS 10
-#define DELIMITER " ,;:()[]{}<>\"\n\t@#$%^&*_-+="// line-wrapping disabled
+#define DELIMITER " ,;:()[]{}<>\"\n\t@#$%^&*_-+="
 
 // analyse text form stream
 void analyse(FILE* stream);

@@ -142,7 +142,7 @@ void inorder(BSTnode* ptr)
 	if (ptr->lchild != NULL)
 		inorder(ptr->lchild);
 
-	puts(ptr->data->raw);
+	printf("%s\t%d\n", ptr->data->raw, ptr->data->count);
 
 	if (ptr->rchild != NULL)
 		inorder(ptr->rchild);

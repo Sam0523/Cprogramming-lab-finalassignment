@@ -11,34 +11,32 @@ void analyse(FILE* stream)
 
 	while ((buf = fgetline(stream)) != NULL)
 	{
-		char* new = strtok(buf, DELIMITER);
+		// if this line ends with hyphen, join it with next line
+		char* end = buf + strlen(buf);
+		while (*--end == '-' && isalpha(end[-1]))
+		{
+			char *rest = fgetline(stream);
 
+			if (rest == NULL)
+				break;
+
+			*end = '\0';
+			buf = realloc(buf, strlen(buf) + strlen(rest) + 1);
+			strcat(buf, rest);
+
+			end = buf + strlen(buf);
+		}
+
+		// divide words
+		char* new = strtok(buf, DELIMITER);
 		while (new != NULL)
 		{
-			char *ptr, *next;
+			char *ptr;
 
-			for (ptr = new, next = new  + 1;
-					*next != '\0';
-					ptr++, next++)
-			{
+			// change whole word to lower case
+			for (ptr = new; *ptr != '\0'; ptr++)
 				*ptr = tolower(*ptr);
-
-				// break into 2 (or more) words if more
-				// than 2 hyphens appears in a row
-				if (*ptr == '-' && *next == '-')
-				{
-					*ptr-- = '\0';
-					// now ptr points to the last
-					// character of new, i.e.
-					// ptr == new + strlen(new) - 1
-
-					// skip all hyphens in a row
-					while (*next++ == '-');
-
-					break;
-				}
-			}
-			*ptr = tolower(*ptr);
+			ptr--;
 
 			// deal with the end of sentence
 			if (*ptr == '.' || *ptr == '?' || *ptr == '!')
@@ -50,8 +48,9 @@ void analyse(FILE* stream)
 
 			insert(&root, new);
 
-			new = strtok(*next == '\0' ? NULL : next, DELIMITER);
+			new = strtok(NULL, DELIMITER);
 		}
+
 		free(buf);
 	}
 }
