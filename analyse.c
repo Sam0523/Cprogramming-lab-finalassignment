@@ -31,12 +31,30 @@ void analyse(FILE* stream)
 		char* new = strtok(buf, DELIMITER);
 		while (new != NULL)
 		{
-			char *ptr;
-
-			// change whole word to lower case
-			for (ptr = new; *ptr != '\0'; ptr++)
+			// change to lower case and deal with hyphens
+			char *ptr, *next;
+			for (ptr = new, next = new  + 1;
+					*next != '\0';
+					ptr++, next++)
+			{
 				*ptr = tolower(*ptr);
-			ptr--;
+
+				// break into 2 (or more) words if the
+				// hyphen isn't followed with a word
+				if (*ptr == '-' && !isalnum(*next))
+				{
+					*ptr-- = '\0';
+					// now ptr points to the last
+					// character of new, i.e.
+					// ptr == new + strlen(new) - 1
+
+					// skip all hyphens in a row
+					while (*++next == '-');
+
+					break;
+				}
+			}
+			*ptr = tolower(*ptr);
 
 			// deal with the end of sentence
 			if (*ptr == '.' || *ptr == '?' || *ptr == '!')
@@ -48,7 +66,7 @@ void analyse(FILE* stream)
 
 			insert(&root, new);
 
-			new = strtok(NULL, DELIMITER);
+			new = strtok(*next == '\0' ? NULL : next, DELIMITER);
 		}
 
 		free(buf);
