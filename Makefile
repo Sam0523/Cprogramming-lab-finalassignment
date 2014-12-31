@@ -1,23 +1,66 @@
+#
+# Compiler flags
+#
+CC	 = gcc
+CFLAGS = -Wall -Werror -Wextra -std=c99
 
-OBJ = main.o analyse.o bst.o fgetline.o syllablecount.o
-HEADER = text_analysis.h main.h
-EXE = text-analyse
+#
+# Project files
+#
+SRCS = main.c analyse.c bst.c fgetline.c syllablecount.c
+OBJS = $(SRCS:.c=.o)
+EXE  = text-analyse
 
-executable: $(OBJ)
-	$(CC) -o $(EXE) $(OBJ) $(CFLAGS)
+#
+# Debug build settings
+#
+DBGDIR = debug
+DBGEXE = $(DBGDIR)/$(EXE)
+DBGOBJS = $(addprefix $(DBGDIR)/, $(OBJS))
+DBGCFLAGS = -g -O0 -DDEBUG
 
-$(OBJ): $(HEADER)
+#
+# Release build settings
+#
+RELDIR = release
+RELEXE = $(RELDIR)/$(EXE)
+RELOBJS = $(addprefix $(RELDIR)/, $(OBJS))
+RELCFLAGS = -O3 -DNDEBUG
 
-debug: CFLAGS += -g -DDEBUG
-debug: clean
-debug: executable
+.PHONY: all clean debug prep release remake
 
-test_bst: CFLAGS += -g -DTEST_BST -DDEBUG
-test_bst: bst.o syllablecount.o
-	$(CC) -o bst.test bst.o syllablecount.o
+# Default build
+all: prep release
 
-.PHONY: clean
+#
+# Debug rules
+#
+debug: $(DBGEXE)
 
-clean: 
-	-rm $(EXE) $(OBJ)
+$(DBGEXE): $(DBGOBJS)
+	$(CC) $(CFLAGS) $(DBGCFLAGS) -o $(DBGEXE) $^
 
+$(DBGDIR)/%.o: %.c
+	$(CC) -c $(CFLAGS) $(DBGCFLAGS) -o $@ $<
+
+#
+# Release rules
+#
+release: $(RELEXE)
+
+$(RELEXE): $(RELOBJS)
+	$(CC) $(CFLAGS) $(RELCFLAGS) -o $(RELEXE) $^
+
+$(RELDIR)/%.o: %.c
+	$(CC) -c $(CFLAGS) $(RELCFLAGS) -o $@ $<
+
+#
+# Other rules
+#
+prep:
+	@mkdir -p $(DBGDIR) $(RELDIR)
+
+remake: clean all
+
+clean:
+	rm -f $(RELEXE) $(RELOBJS) $(DBGEXE) $(DBGOBJS)
