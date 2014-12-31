@@ -39,11 +39,8 @@ void analyse(FILE* stream)
 				}
 			}
 			*ptr = tolower(*ptr);
-			/*
-			ptr = new + strlen(new) - 1;
-			next = "";
-			*/
 
+			// deal with the end of sentence
 			if (*ptr == '.' || *ptr == '?' || *ptr == '!')
 			{
 				N_s++;

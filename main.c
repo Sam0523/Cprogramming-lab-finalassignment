@@ -54,9 +54,24 @@ int main(int argc, char *argv[])
 					printf("Flesch Reading Ease Score:\n");
 					printf("\tF = %lf\n",
 						206.835 - 1.015 * N_w / N_s - 74.6 * N_x / N_w);
+
 					printf("Gunning Fog Index:\n");
 					printf("\tG = %lf\n",
 						0.4* N_w / N_s + 40.0 * N_c / N_w );
+
+					printf("The top 10 'hardest' words:\n");
+					for (int i = 0; i < HARDEST_WORDS && hardest[i] != NULL; i++)
+						printf("\t%2d. %s\n", i + 1, hardest[i]->raw);
+
+					printf("The top 10 most freqent 'hard words':\n");
+					for (int i = 0; i < FREQENT_HARDS && frequent_hard[i] != NULL; i++)
+						printf("\t%2d. %s\n", i + 1, frequent_hard[i]->raw);
+
+					printf("The total number of words:\n");
+					printf("\t%d\n", N_w);
+
+					printf("The total number of unique words:\n");
+					printf("\t%d\n", N_u);
 				}
 			}
 		}

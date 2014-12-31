@@ -5,10 +5,10 @@
 BSTnode *root;
 
 // the top hardest words
-word* hardest[HARDEST_WORD_SUM];
+word* hardest[HARDEST_WORDS + 1];
 
 // the most frequent hard words
-word* frequent_hard[MOST_FREQUENT_WORD_SUM];
+word* frequent_hard[FREQENT_HARDS + 1];
 
 int N_x;		// number of syllables
 int N_w;		// number of words

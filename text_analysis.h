@@ -17,24 +17,40 @@ typedef struct node
 } BSTnode;
 
 #define ISHARD(wordptr) ((wordptr)->syllable > 2)
-#define HARDEST_WORD_SUM 10
-#define MOST_FREQUENT_WORD_SUM 10
-#define BUF_INIT_SIZE 10
+#define HARDEST_WORDS 10
+#define FREQENT_HARDS 10
 #define DELIMITER " ,;:()[]{}<>\"\n\t@#$%^&*_-+="// line-wrapping disabled
 
-// read a word (seprated by space) from stream and return it
+// analyse text form stream
 void analyse(FILE* stream);
+
+// get a line from stream and return the string
+// (memory space automatically allocated)
 char* fgetline(FILE* stream);
+
+// return the syllables of a word
 int count_syllables(char *word);
+
+// insert a word into the binary search tree,
+// return newly inserted word or NULL
+void insert(BSTnode** ptr, char* new_word);
+
+// remove the whole binary search tree
+void destory(BSTnode **ptr);
+
+#ifdef DEBUG
+// output the content of the BST, use for debug only
+void inorder(BSTnode* ptr);
+#endif // DEBUG
 
 // the binary search tree to store words
 extern BSTnode *root;
 
 // the top hardest words
-extern word* hardest[HARDEST_WORD_SUM];
+extern word* hardest[HARDEST_WORDS + 1];
 
 // the most frequent hard words
-extern word* frequent_hard[MOST_FREQUENT_WORD_SUM];
+extern word* frequent_hard[FREQENT_HARDS + 1];
 
 extern int N_x;		// number of syllables
 extern int N_w;		// number of words

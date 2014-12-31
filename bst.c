@@ -7,20 +7,50 @@ void insert(BSTnode** ptr, char* new_word)
 {
 	if (*ptr == NULL)
 	{
+		// create new word
 		word* new = (word*)malloc(sizeof(word) + strlen(new_word) + 1);
 		new->count = 1;
 		new->syllable = count_syllables(new_word);
 		strcpy(new->raw, new_word);
 
+		// create new node
 		*ptr = (BSTnode*)malloc(sizeof(BSTnode));
 		(*ptr)->data = new;
 		(*ptr)->lchild = NULL;
 		(*ptr)->rchild = NULL;
 
+		// update counters
 		N_u++;
 		N_w++;
 		N_c += ISHARD(new);
 		N_x += new->syllable;
+
+		// update hardest words, like bubble sort
+		hardest[HARDEST_WORDS] = new;
+		for (word** ptr = hardest + HARDEST_WORDS;
+				ptr > hardest && (ptr[-1] == NULL ||
+					ptr[0]->syllable > ptr[-1]->syllable);
+				ptr--)
+		{
+			word* tmp = *ptr;
+			*ptr = ptr[-1];
+			ptr[-1] = tmp;
+		}
+
+		if (ISHARD(new))
+		{
+			// update most freqent hard words, like bubble sort
+			frequent_hard[FREQENT_HARDS] = new;
+			for (word** ptr = frequent_hard + FREQENT_HARDS;
+				ptr > frequent_hard && (ptr[-1] == NULL ||
+					ptr[0]->count > ptr[-1]->count);
+				ptr--)
+			{
+				word* tmp = *ptr;
+				*ptr = ptr[-1];
+				ptr[-1] = tmp;
+			}
+		}
 	}
 	else if (strcmp(new_word, (*ptr)->data->raw) > 0)
 	{
@@ -32,6 +62,7 @@ void insert(BSTnode** ptr, char* new_word)
 	}
 	else
 	{
+		// update old word
 		(*ptr)->data->count++;
 		N_w++;
 		N_c += ISHARD((*ptr)->data);
