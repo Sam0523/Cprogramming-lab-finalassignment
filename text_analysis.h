@@ -21,6 +21,9 @@ typedef struct node
 #define FREQENT_HARDS 10
 #define DELIMITER " ,;:()[]{}<>\"\n\t@#$%^&*_+="
 
+// name of this program in command line
+extern char* program_name;
+
 // analyse text form stream
 void analyse(FILE* stream);
 

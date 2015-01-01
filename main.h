@@ -1,6 +1,9 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+// name of this program in command line
+char* program_name;
+
 // the binary search tree to store words
 BSTnode *root;
 
@@ -15,5 +18,7 @@ int N_w;		// number of words
 int N_s;		// number of sentences
 int N_c;		// number of complex words
 int N_u;		// number of unique words
+
+static void print_usage(void);
 
 #endif // MAIN_H

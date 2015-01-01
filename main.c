@@ -6,10 +6,12 @@
 
 int main(int argc, char *argv[])
 {
+	program_name = argv[0];
+
 	if (argc == 1)
 	{
-		fprintf(stderr, "Error: missing input\n");
-		// TODO: output usage
+		fprintf(stderr, "%s: Error: missing input\n", program_name);
+		print_usage();
 		return EXIT_FAILURE;
 	}
 
@@ -76,4 +78,10 @@ int main(int argc, char *argv[])
 	}
 
 	return EXIT_SUCCESS;
+}
+
+static void print_usage(void)
+{
+	printf("Usage: %s file1 [file2 ...]\n", program_name);
+	printf("Analyse English text files.\n");
 }
