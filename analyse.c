@@ -71,4 +71,7 @@ void analyse(FILE* stream)
 
 		free(buf);
 	}
+
+	hardest[HARDEST_WORDS] = NULL;
+	frequent_hard[FREQENT_HARDS] = NULL;
 }
