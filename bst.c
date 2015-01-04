@@ -3,81 +3,35 @@
 #include <string.h>
 #include "text_analysis.h"
 
-void insert(BSTnode** ptr, char* new_word)
+void insert(pBSTnode *ptr, const void* new_data)
 {
-	if (*ptr == NULL)
+	if (ptr->node == NULL)
 	{
-		// create new word
-		word* new = (word*)malloc(sizeof(word) + strlen(new_word) + 1);
-		new->count = 1;
-		new->syllable = count_syllables(new_word);
-		strcpy(new->raw, new_word);
-
-		// create new node
-		*ptr = (BSTnode*)malloc(sizeof(BSTnode));
-		(*ptr)->data = new;
-		(*ptr)->lchild = NULL;
-		(*ptr)->rchild = NULL;
-
-		// update counters
-		N_u++;
-		N_w++;
-		N_c += ISHARD(new);
-		N_x += new->syllable;
-
-		// update hardest words, like bubble sort
-		hardest[HARDEST_WORDS] = new;
-		for (word** ptr = hardest + HARDEST_WORDS;
-				ptr > hardest && (ptr[-1] == NULL ||
-					ptr[0]->syllable > ptr[-1]->syllable);
-				ptr--)
-		{
-			word* tmp = *ptr;
-			*ptr = ptr[-1];
-			ptr[-1] = tmp;
-		}
-
-		if (ISHARD(new))
-		{
-			// update most freqent hard words, like bubble sort
-			frequent_hard[FREQENT_HARDS] = new;
-			for (word** ptr = frequent_hard + FREQENT_HARDS;
-				ptr > frequent_hard && (ptr[-1] == NULL ||
-					ptr[0]->count > ptr[-1]->count);
-				ptr--)
-			{
-				word* tmp = *ptr;
-				*ptr = ptr[-1];
-				ptr[-1] = tmp;
-			}
-		}
+		ptr->add(ptr, new_data);
 	}
-	else if (strcmp(new_word, (*ptr)->data->raw) > 0)
+	else if (ptr->cmp(ptr->node->data, new_data) > 0)
 	{
-		insert(&(*ptr)->rchild, new_word);
+		insert(&ptr->node->lchild, new_data);
 	}
-	else if (strcmp(new_word, (*ptr)->data->raw) < 0)
+	else if (ptr->cmp(ptr->node->data, new_data) < 0)
 	{
-		insert(&(*ptr)->lchild, new_word);
+		insert(&ptr->node->rchild, new_data);
 	}
 	else
 	{
-		// update old word
-		(*ptr)->data->count++;
-		N_w++;
-		N_c += ISHARD((*ptr)->data);
-		N_x += (*ptr)->data->syllable;
+		ptr->update(ptr->node);
 	}
 }
 
-void destory(BSTnode **ptr)
+void destory(pBSTnode *ptr)
 {
-	if (*ptr != NULL)
+	if (ptr->node != NULL)
 	{
-		destory(&(*ptr)->lchild);
-		destory(&(*ptr)->rchild);
-		free(*ptr);
-		*ptr = NULL;
+		destory(&ptr->node->lchild);
+		destory(&ptr->node->rchild);
+		free(ptr->node->data);
+		free(ptr->node);
+		ptr->node = NULL;
 	}
 }
 /*
@@ -137,15 +91,17 @@ BSTnode* delete(BSTnode** ptr, void* key)
 */
 
 #ifdef DEBUG
-void inorder(BSTnode* ptr)
+void inorder(pBSTnode ptr)
 {
-	if (ptr->lchild != NULL)
-		inorder(ptr->lchild);
+	if (ptr.node == NULL)
+		return;
 
-	printf("%s\t%d\n", ptr->data->raw, ptr->data->count);
+	inorder(ptr.node->lchild);
 
-	if (ptr->rchild != NULL)
-		inorder(ptr->rchild);
+	printf("%s\t%d\n", ((word*)ptr.node->data)->raw,
+			((word*)ptr.node->data)->count);
+
+	inorder(ptr.node->rchild);
 }
 #endif // DEBUG
 

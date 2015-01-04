@@ -1,20 +1,37 @@
 #ifndef TEXT_ANALYSIS_H
 #define TEXT_ANALYSIS_H
 
+typedef struct node BSTnode;
+typedef struct pnode pBSTnode;
+
+// pointer to a node of the BST
+struct pnode
+{
+	void (*add)(pBSTnode*, const void*);
+	void (*update)(const BSTnode*);
+	int (*cmp)(const void*, const void*);
+	BSTnode *node;
+};
+
+// node of a Binary Search Tree
+struct node
+{
+	void *data;
+	pBSTnode lchild, rchild;
+};
+
 // a data structure to store a word
 typedef struct
 {
-	unsigned count;		// how many times the word appear
+	unsigned count;		// how many times this word appears
 	unsigned char syllable;	// syllables count of the word
 	char raw[0];		// the word
 } word;
 
-// node of a Binary Search Tree
-typedef struct node
-{
-	word *data;		// pointer to a word
-	struct node *lchild, *rchild;
-} BSTnode;
+// three function to handle a BST of word
+void word_add(pBSTnode *ptr, const void* new_data);
+void word_update(const BSTnode *ptr);
+int word_str_cmp(const void* ptr, const void* data);
 
 #define ISHARD(wordptr) ((wordptr)->syllable > 2)
 #define HARDEST_WORDS 10
@@ -36,18 +53,18 @@ int count_syllables(char *word);
 
 // insert a word into the binary search tree,
 // return newly inserted word or NULL
-void insert(BSTnode** ptr, char* new_word);
+void insert(pBSTnode* ptr, const void* new_data);
 
 // remove the whole binary search tree
-void destory(BSTnode **ptr);
+void destory(pBSTnode *ptr);
 
 #ifdef DEBUG
 // output the content of the BST, use for debug only
-void inorder(BSTnode* ptr);
+void inorder(pBSTnode ptr);
 #endif // DEBUG
 
 // the binary search tree to store words
-extern BSTnode *root;
+extern pBSTnode root;
 
 // the top hardest words
 extern word* hardest[HARDEST_WORDS + 1];
