@@ -60,15 +60,27 @@ int main(int argc, char *argv[])
 
 		printf("Gunning Fog Index:\n");
 		printf("\tG = %lf\n",
-				0.4* N_w / N_s + 40.0 * N_c / N_w );
+				0.4 * N_w / N_s + 40.0 * N_c / N_w );
 
 		printf("The top 10 'hardest' words:\n");
 		for (int i = 0; hardest[i] != NULL; i++)
+#ifdef DEBUG
+			printf("\t%2d. %s\t%d\t%d\n", i + 1, hardest[i]->raw,
+					hardest[i]->count, hardest[i]->syllable);
+#else
 			printf("\t%2d. %s\n", i + 1, hardest[i]->raw);
+#endif
 
 		printf("The top 10 most freqent 'hard words':\n");
 		for (int i = 0; frequent_hard[i] != NULL; i++)
+#ifdef DEBUG
+			printf("\t%2d. %s\t%d\t%d\n", i + 1,
+					frequent_hard[i]->raw,
+					frequent_hard[i]->count,
+					frequent_hard[i]->syllable);
+#else
 			printf("\t%2d. %s\n", i + 1, frequent_hard[i]->raw);
+#endif
 
 		printf("The total number of words:\n");
 		printf("\t%d\n", N_w);
