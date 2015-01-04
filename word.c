@@ -33,23 +33,15 @@ static inline void update_freq_hard(word* new_word)
 	}
 }
 
-void word_add(pBSTnode *ptr, const void* new_data)
+void* word_create(const void* new_data_raw)
 {
-	char* new_word = (char*)new_data;
+	char* new_word = (char*)new_data_raw;
 
 	// create new word
 	word* new = (word*)malloc(sizeof(word) + strlen(new_word) + 1);
 	new->count = 1;
 	new->syllable = count_syllables(new_word);
 	strcpy(new->raw, new_word);
-
-	// create new node
-	ptr->node = (BSTnode*)malloc(sizeof(BSTnode));
-	ptr->node->data = new;
-	ptr->node->lchild.node   = ptr->node->rchild.node   = NULL;
-	ptr->node->lchild.add    = ptr->node->rchild.add    = ptr->add;
-	ptr->node->lchild.update = ptr->node->rchild.update = ptr->update;
-	ptr->node->lchild.cmp    = ptr->node->rchild.cmp    = ptr->cmp;
 
 	// update counters
 	N_u++;
@@ -73,11 +65,13 @@ void word_add(pBSTnode *ptr, const void* new_data)
 	{
 		update_freq_hard(new);
 	}
+
+	return new;
 }
 
-void word_update(const BSTnode *ptr)
+void word_update(const void *data)
 {
-	word* word_data = (word*) ptr->data;
+	word* word_data = (word*) data;
 
 	// update old word
 	word_data->count++;

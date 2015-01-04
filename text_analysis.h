@@ -7,10 +7,16 @@ typedef struct pnode pBSTnode;
 // pointer to a node of the BST
 struct pnode
 {
-	void (*add)(pBSTnode*, const void*);
-	void (*update)(const BSTnode*);
-	int (*cmp)(const void*, const void*);
 	BSTnode *node;
+
+	// create new data field by raw data
+	void* (*create)(const void* raw_data);
+
+	// update old data field
+	void (*update)(const void* data);
+
+	// compare data field and raw data
+	int (*cmp)(const void* data, const void* raw_data);
 };
 
 // node of a Binary Search Tree
@@ -29,9 +35,9 @@ typedef struct
 } word;
 
 // three function to handle a BST of word
-void word_add(pBSTnode *ptr, const void* new_data);
-void word_update(const BSTnode *ptr);
-int word_str_cmp(const void* ptr, const void* data);
+void* word_create(const void* new_data_raw);
+void word_update(const void *data);
+int word_str_cmp(const void* data, const void* str);
 
 #define ISHARD(wordptr) ((wordptr)->syllable > 2)
 #define HARDEST_WORDS 10
@@ -53,7 +59,7 @@ int count_syllables(char *word);
 
 // insert a word into the binary search tree,
 // return newly inserted word or NULL
-void insert(pBSTnode* ptr, const void* new_data);
+void insert(pBSTnode* ptr, const void* new_data_raw);
 
 // remove the whole binary search tree
 void destory(pBSTnode *ptr);

@@ -7,7 +7,14 @@ void insert(pBSTnode *ptr, const void* new_data)
 {
 	if (ptr->node == NULL)
 	{
-		ptr->add(ptr, new_data);
+		// create new node
+		ptr->node = (BSTnode*)malloc(sizeof(BSTnode));
+		ptr->node->data = ptr->create(new_data);
+		ptr->node->lchild.node   = ptr->node->rchild.node   = NULL;
+		ptr->node->lchild.create = ptr->node->rchild.create = ptr->create;
+		ptr->node->lchild.update = ptr->node->rchild.update = ptr->update;
+		ptr->node->lchild.cmp    = ptr->node->rchild.cmp    = ptr->cmp;
+
 	}
 	else if (ptr->cmp(ptr->node->data, new_data) > 0)
 	{
@@ -19,7 +26,7 @@ void insert(pBSTnode *ptr, const void* new_data)
 	}
 	else
 	{
-		ptr->update(ptr->node);
+		ptr->update(ptr->node->data);
 	}
 }
 

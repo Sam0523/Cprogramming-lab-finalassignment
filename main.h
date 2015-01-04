@@ -5,7 +5,7 @@
 char* program_name;
 
 // the binary search tree to store words
-pBSTnode root = {word_add, word_update, word_str_cmp, NULL};
+pBSTnode root = {NULL, word_create, word_update, word_str_cmp};
 
 // the top hardest words
 word* hardest[HARDEST_WORDS + 1];
