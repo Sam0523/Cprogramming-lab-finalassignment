@@ -7,7 +7,8 @@ CFLAGS = -Wall -Werror -Wextra -std=c99
 #
 # Project files
 #
-SRCS = main.c analyse.c bst.c fgetline.c syllablecount.c
+HDRS = text_analysis.h main.h
+SRCS = main.c analyse.c bst.c fgetline.c syllablecount.c word.c
 OBJS = $(SRCS:.c=.o)
 EXE  = text-analyse
 
@@ -40,7 +41,7 @@ debug: $(DBGEXE)
 $(DBGEXE): $(DBGOBJS)
 	$(CC) $(CFLAGS) $(DBGCFLAGS) -o $(DBGEXE) $^
 
-$(DBGDIR)/%.o: %.c
+$(DBGDIR)/%.o: %.c $(HDRS)
 	$(CC) -c $(CFLAGS) $(DBGCFLAGS) -o $@ $<
 
 #
@@ -51,7 +52,7 @@ release: $(RELEXE)
 $(RELEXE): $(RELOBJS)
 	$(CC) $(CFLAGS) $(RELCFLAGS) -o $(RELEXE) $^
 
-$(RELDIR)/%.o: %.c
+$(RELDIR)/%.o: %.c $(HDRS)
 	$(CC) -c $(CFLAGS) $(RELCFLAGS) -o $@ $<
 
 #
