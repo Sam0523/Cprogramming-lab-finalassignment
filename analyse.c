@@ -97,6 +97,9 @@ void analyse(FILE* stream)
 	frequent_hard[FREQENT_HARDS] = NULL;
 
 	find_most_common_begin(sen_bgn_root, 0);
+
+	for (int i = 1; i < MAX_COMMON_BGN && common_begin[i][i]; i++)
+		common_begin[i][0]->raw[0] = toupper(common_begin[i][0]->raw[0]);
 }
 
 static char find_most_common_begin(pBSTnode ptr, int depth)

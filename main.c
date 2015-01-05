@@ -91,7 +91,8 @@ int main(int argc, char *argv[])
 		printf("\t%d\n", N_u);
 
 		printf("The most frequent sentence beginnings are:\n");
-		for (int i = 1; i < MAX_COMMON_BGN; i++)
+		for (int i = 1; i < MAX_COMMON_BGN &&
+				common_begin[i][i] != NULL; i++)
 		{
 #ifdef DEBUG
 			printf("[%d words, used %d times]: \"", i + 1,
