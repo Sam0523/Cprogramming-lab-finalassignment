@@ -1,12 +1,10 @@
 Final Assignment for 2014:
 =================================
-a C program for text processing
----------------------------------
 
 This is the final assignment for Computer Programming, 2014
 by Ian McLoughlin.
 
-[More info]:http://staff.ustc.edu.cn/~ivm/Cprogramming/content/FinalAssignment_v2.pdf
+[More info](http://staff.ustc.edu.cn/~ivm/Cprogramming/content/FinalAssignment_v2.pdf)
 
 Notes
 --------------------------------
@@ -17,7 +15,7 @@ Notes
 ```
  ,;:()[]{}<>\"\n\t@#$%^&*_+=
 ```
-*Note*: hyphen are NOT considered to be same as a space!
+**Note**: hyphen are NOT considered to be same as a space!
 
 - I used binary search tree instead of linked lists so as to improve
 performance.
