@@ -1,13 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <ctype.h>
 #include <string.h>
 #include "text_analysis.h"
+
+// word delimiter
+#define DELIMITER " ,;:()[]{}<>\"\n\t@#$%^&*_+="
+
+static char find_most_common_begin(pBSTnode ptr, int depth);
 
 void analyse(FILE* stream)
 {
 	// input buffer
 	char* buf;
+
+	// sentence length
+	int sen_len = 0;
 
 	while ((buf = fgetline(stream)) != NULL)
 	{
@@ -56,15 +65,27 @@ void analyse(FILE* stream)
 			}
 			*ptr = tolower(*ptr);
 
+			bool end_of_sentence = false;
 			// deal with the end of sentence
 			if (*ptr == '.' || *ptr == '?' || *ptr == '!')
 			{
 				N_s++;
+				end_of_sentence = true;
 				while (*ptr == '.' || *ptr == '?' || *ptr == '!')
 					*ptr-- = '\0';
 			}
 
 			insert(&root, new);
+
+			if (sen_len < 5)
+			{
+				ins_sen_bgn(sen_len == 0 ? &sen_bgn_root : NULL,
+						new);
+				sen_len++;
+			}
+
+			if (end_of_sentence)
+				sen_len = 0;
 
 			new = strtok(*next == '\0' ? NULL : next, DELIMITER);
 		}
@@ -74,4 +95,32 @@ void analyse(FILE* stream)
 
 	hardest[HARDEST_WORDS] = NULL;
 	frequent_hard[FREQENT_HARDS] = NULL;
+
+	find_most_common_begin(sen_bgn_root, 0);
+}
+
+static char find_most_common_begin(pBSTnode ptr, int depth)
+{
+	if (ptr.node == NULL)
+		return 0;
+
+	char rval = 0;			// return value
+	sen_bgn_wrd *word_data = (sen_bgn_wrd*)ptr.node->data;
+
+	if (common_begin[depth][depth] == NULL ||
+			word_data->count > common_begin[depth][depth]->count)
+	{
+		common_begin[depth][depth] = word_data;
+		rval = 1 << depth;
+	}
+
+	rval |= find_most_common_begin(word_data->next_root, depth + 1);
+	for (int i = depth; i < MAX_COMMON_BGN; i++)
+	{
+		if (rval & (1 << i))
+			common_begin[i][depth] = word_data;
+	}
+
+	return rval | find_most_common_begin(ptr.node->lchild, depth) |
+		find_most_common_begin(ptr.node->rchild, depth);
 }

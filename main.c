@@ -47,7 +47,9 @@ int main(int argc, char *argv[])
 		}
 
 #ifdef DEBUG
-		inorder(root);
+		//inorder_word(root);
+		printf("---------------\n");
+		inorder_sen_bgn(sen_bgn_root, 0);
 		printf("N_x = %d\n", N_x);
 		printf("N_w = %d\n", N_w);
 		printf("N_s = %d\n", N_s);
@@ -87,6 +89,23 @@ int main(int argc, char *argv[])
 
 		printf("The total number of unique words:\n");
 		printf("\t%d\n", N_u);
+
+		printf("The most frequent sentence beginnings are:\n");
+		for (int i = 1; i < MAX_COMMON_BGN; i++)
+		{
+#ifdef DEBUG
+			printf("[%d words, used %d times]: \"", i + 1,
+					common_begin[i][i]->count);
+#else
+			printf("[%d words, used in %.2f%% of sentences]: \"",
+					i + 1,
+					100. * common_begin[i][i]->count / N_s);
+#endif
+			for (int j = 0; j <= i; j++)
+				printf(j == 0 ? "%s" : " %s",
+						common_begin[i][j]->raw);
+			printf("\"\n");
+		}
 	}
 
 	return EXIT_SUCCESS;

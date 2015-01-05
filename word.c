@@ -85,8 +85,8 @@ void word_update(const void *data)
 	}
 }
 
-int word_str_cmp(const void* ptr, const void* data)
+int word_str_cmp(const void* data, const void* str)
 {
-	return strcmp( ((word*)ptr)->raw, (char*)data);
+	return strcmp( ((word*)data)->raw, (char*)str);
 }
 

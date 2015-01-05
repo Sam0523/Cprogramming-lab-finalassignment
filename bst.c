@@ -3,7 +3,7 @@
 #include <string.h>
 #include "text_analysis.h"
 
-void insert(pBSTnode *ptr, const void* new_data)
+BSTnode* insert(pBSTnode *ptr, const void* new_data)
 {
 	if (ptr->node == NULL)
 	{
@@ -15,18 +15,20 @@ void insert(pBSTnode *ptr, const void* new_data)
 		ptr->node->lchild.update = ptr->node->rchild.update = ptr->update;
 		ptr->node->lchild.cmp    = ptr->node->rchild.cmp    = ptr->cmp;
 
+		return ptr->node;
 	}
 	else if (ptr->cmp(ptr->node->data, new_data) > 0)
 	{
-		insert(&ptr->node->lchild, new_data);
+		return insert(&ptr->node->lchild, new_data);
 	}
 	else if (ptr->cmp(ptr->node->data, new_data) < 0)
 	{
-		insert(&ptr->node->rchild, new_data);
+		return insert(&ptr->node->rchild, new_data);
 	}
 	else
 	{
 		ptr->update(ptr->node->data);
+		return ptr->node;
 	}
 }
 
@@ -41,74 +43,34 @@ void destory(pBSTnode *ptr)
 		ptr->node = NULL;
 	}
 }
-/*
-BSTnode *search(BSTnode *ptr, void* key)
-{
-	if (ptr == NULL)
-		return NULL;
-	else if (key < ptr->data)
-		return search(ptr->lchild, key);
-	else if (key > ptr->data)
-		return search(ptr->rchild, key);
-	else
-		return ptr;
-}
-
-BSTnode* delete(BSTnode** ptr, void* key)
-{
-	if (*ptr == NULL)
-		return NULL;
-
-	else if (key < (*ptr)->data)
-		(*ptr)->lchild = delete(&(*ptr)->lchild, key);
-	else if (key > (*ptr)->data)
-		(*ptr)->rchild = delete(&(*ptr)->rchild, key);
-	else
-		if ((*ptr)->lchild && (*ptr)->rchild)
-		{
-			BSTnode *prev = (*ptr)->lchild, *prev_father = (*ptr);
-			BSTnode *next = (*ptr)->rchild, *next_father = (*ptr);
-		
-			while (prev->rchild)
-				prev_father = prev, prev = prev->rchild;
-			while (next->lchild)
-				next_father = next, next = next->lchild;
-			if ( 2 * (*ptr)->data < prev->data + next->data )
-			{
-				(*ptr)->data = prev->data;
-				prev_father->rchild = prev->lchild;
-				free(prev);
-			}
-			else
-			{
-				(*ptr)->data = next->data;
-				next_father->lchild = next->rchild;
-				free(next);
-			}
-		}
-		else
-		{
-			BSTnode* tmp = (BSTnode*)( (int)(*ptr)->lchild | (int)(*ptr)->rchild );
-			free((*ptr));
-			return tmp;
-		}
-
-	return *ptr;
-}
-*/
 
 #ifdef DEBUG
-void inorder(pBSTnode ptr)
+void inorder_word(pBSTnode ptr)
 {
 	if (ptr.node == NULL)
 		return;
 
-	inorder(ptr.node->lchild);
+	inorder_word(ptr.node->lchild);
 
 	printf("%s\t%d\n", ((word*)ptr.node->data)->raw,
 			((word*)ptr.node->data)->count);
 
-	inorder(ptr.node->rchild);
+	inorder_word(ptr.node->rchild);
+}
+
+void inorder_sen_bgn(pBSTnode ptr, int indent)
+{
+	if (ptr.node == NULL)
+		return;
+
+	inorder_sen_bgn(ptr.node->lchild, indent);
+
+	printf("%*c%s\t%d\n",indent, ' ', ((sen_bgn_wrd*)ptr.node->data)->raw,
+			((sen_bgn_wrd*)ptr.node->data)->count);
+	inorder_sen_bgn(((sen_bgn_wrd*)ptr.node->data)->next_root,
+			indent + strlen(((sen_bgn_wrd*)ptr.node->data)->raw));
+
+	inorder_sen_bgn(ptr.node->rchild, indent);
 }
 #endif // DEBUG
 
@@ -123,7 +85,7 @@ int main(void)
 	while (printf("Input a word:\n"), scanf("%s", word) == 1)
 		insert(&root, word);
 
-	inorder(root);
+	inorder_word(root);
 
 	return 0;
 }

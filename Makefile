@@ -8,7 +8,7 @@ CFLAGS = -Wall -Werror -Wextra -std=c99
 # Project files
 #
 HDRS = text_analysis.h main.h
-SRCS = main.c analyse.c bst.c fgetline.c syllablecount.c word.c
+SRCS = main.c analyse.c bst.c fgetline.c syllablecount.c word.c sen_bgn_wrd.c
 OBJS = $(SRCS:.c=.o)
 EXE  = text-analyse
 
@@ -31,7 +31,7 @@ RELCFLAGS = -O3 -DNDEBUG
 .PHONY: all clean debug prep release remake
 
 # Default build
-all: prep release
+all: prep release tags
 
 #
 # Debug rules
@@ -60,6 +60,9 @@ $(RELDIR)/%.o: %.c $(HDRS)
 #
 prep:
 	@mkdir -p $(DBGDIR) $(RELDIR)
+
+tags: $(SRCS) $(HDRS)
+	ctags $(SRCS) $(HDRS)
 
 remake: clean all
 

@@ -19,6 +19,13 @@ int N_s;		// number of sentences
 int N_c;		// number of complex words
 int N_u;		// number of unique words
 
+// BST of first word of sentences beginning
+pBSTnode sen_bgn_root = {NULL, sen_bgn_wrd_create,
+	sen_bgn_wrd_update, sen_bgn_wrd_str_cmp};
+
+// array of words in sentences beginning
+sen_bgn_wrd* common_begin[MAX_COMMON_BGN][MAX_COMMON_BGN] = {};
+
 static void print_usage(void);
 
 #endif // MAIN_H
