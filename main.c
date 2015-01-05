@@ -27,17 +27,6 @@ int main(int argc, char *argv[])
 
 		printf("Analysing the file \"%s\"\n", *argv);
 
-		// initialize
-		N_x = 0;
-		N_w = 0;
-		N_s = 0;
-		N_c = 0;
-		N_u = 0;
-
-		destory(&root);
-		memset(hardest, 0, sizeof(hardest));
-		memset(frequent_hard, 0, sizeof(frequent_hard));
-
 		analyse(fp);
 
 		if (ferror(fp))

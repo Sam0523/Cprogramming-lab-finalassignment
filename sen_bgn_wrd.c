@@ -30,7 +30,7 @@ int sen_bgn_wrd_str_cmp(const void *data, const void* str)
 	return strcmp( ((sen_bgn_wrd*)data)->raw, (char*)str);
 }
 
-// programmer interface for insert a word of sencence beginning
+// programmer interface for insert a word of sentcence beginning
 void ins_sen_bgn(pBSTnode *ptr, const char *new_word)
 {
 	static pBSTnode *old;
@@ -39,4 +39,18 @@ void ins_sen_bgn(pBSTnode *ptr, const char *new_word)
 		ptr = old;
 	
 	old = & ( (sen_bgn_wrd*) insert(ptr, new_word) -> data ) -> next_root;
+}
+
+// programmer interface for destroy the whole sentence beginning tree
+void destroy_sen_bgn(pBSTnode *ptr)
+{
+	if (ptr->node != NULL)
+	{
+		destroy_sen_bgn(&((sen_bgn_wrd*)ptr->node->data)->next_root);
+		destroy_sen_bgn(&ptr->node->lchild);
+		destroy_sen_bgn(&ptr->node->rchild);
+		free(ptr->node->data);
+		free(ptr->node);
+		ptr->node = NULL;
+	}
 }

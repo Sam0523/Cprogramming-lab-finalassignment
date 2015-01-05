@@ -54,6 +54,8 @@ int sen_bgn_wrd_str_cmp(const void* data, const void* str);
 
 // programmer interface for insert a word of sencence beginning
 void ins_sen_bgn(pBSTnode *ptr, const char* new_word);
+// programmer interface for destroy the whole sentence beginning
+void destroy_sen_bgn(pBSTnode *ptr);
 
 #define ISHARD(wordptr) ((wordptr)->syllable > 2)
 #define HARDEST_WORDS 10
@@ -78,7 +80,7 @@ int count_syllables(char *word);
 BSTnode* insert(pBSTnode* ptr, const void* new_data_raw);
 
 // remove the whole binary search tree
-void destory(pBSTnode *ptr);
+void destroy(pBSTnode *ptr);
 
 #ifdef DEBUG
 // output the word BST, use for debug only

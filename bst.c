@@ -32,12 +32,12 @@ BSTnode* insert(pBSTnode *ptr, const void* new_data)
 	}
 }
 
-void destory(pBSTnode *ptr)
+void destroy(pBSTnode *ptr)
 {
 	if (ptr->node != NULL)
 	{
-		destory(&ptr->node->lchild);
-		destory(&ptr->node->rchild);
+		destroy(&ptr->node->lchild);
+		destroy(&ptr->node->rchild);
 		free(ptr->node->data);
 		free(ptr->node);
 		ptr->node = NULL;

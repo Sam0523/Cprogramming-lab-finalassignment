@@ -12,6 +12,19 @@ static char find_most_common_begin(pBSTnode ptr, int depth);
 
 void analyse(FILE* stream)
 {
+	// initialize
+	N_x = 0;
+	N_w = 0;
+	N_s = 0;
+	N_c = 0;
+	N_u = 0;
+
+	destroy(&root);
+	destroy_sen_bgn(&sen_bgn_root);
+	memset(hardest, 0, sizeof(hardest));
+	memset(frequent_hard, 0, sizeof(frequent_hard));
+	memset(common_begin, 0, sizeof(common_begin));
+
 	// input buffer
 	char* buf;
 
