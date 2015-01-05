@@ -9,11 +9,15 @@ by Ian McLoughlin.
 Notes
 --------------------------------
 
+### Overview
+
+- run the program without argument will get an usage info.
+
 ### PART 1
 
 - These characters are considered to delimit words:
 ```
- ,;:()[]{}<>\"\n\t@#$%^&*_+=
+,;:()[]{}<>"@#$%^&*_+=<space><newline><tab>
 ```
 **Note**: hyphen are **NOT** considered to be same as a space!
 
