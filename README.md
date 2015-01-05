@@ -1,4 +1,4 @@
-Final Assignment for 2014:
+Final Assignment for 2014
 =================================
 
 This is the final assignment for Computer Programming, 2014
@@ -15,7 +15,7 @@ Notes
 ```
  ,;:()[]{}<>\"\n\t@#$%^&*_+=
 ```
-**Note**: hyphen are NOT considered to be same as a space!
+**Note**: hyphen are **NOT** considered to be same as a space!
 
 - I used binary search tree instead of linked lists so as to improve
 performance.
