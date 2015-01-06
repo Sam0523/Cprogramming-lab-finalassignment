@@ -100,7 +100,7 @@ void analyse(FILE* stream)
 			if (end_of_sentence)
 				sen_len = 0;
 
-			new = strtok(*next == '\0' ? NULL : next, DELIMITER);
+			new = *next == '\0' ? strtok(NULL, DELIMITER) : next;
 		}
 
 		free(buf);
