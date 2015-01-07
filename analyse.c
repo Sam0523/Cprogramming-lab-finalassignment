@@ -9,7 +9,7 @@
 #define DELIMITER " ,;:()[]{}<>/|\\\"\n\t@#$%^&*_+="
 
 // speciall words and abbrs that need to be handled differently
-char* special_and_abbrs[] =
+static char* special_and_abbrs[] =
 {
 	"co.",
 	"e.g.",
