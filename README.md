@@ -22,3 +22,7 @@ Notes
 
 - I used binary search tree instead of linked lists so as to improve
 performance.
+
+### PART 3
+
+- PART3, No.1 is on branch PART3.1
