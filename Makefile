@@ -8,9 +8,9 @@ CFLAGS = -Wall -Werror -Wextra -std=c99
 # Project files
 #
 HDRS = text_analysis.h main.h
-SRCS = main.c analyse.c bst.c fgetline.c syllablecount.c word.c sen_bgn_wrd.c
+SRCS = main.c analyse.c fgetline.c plot.c
 OBJS = $(SRCS:.c=.o)
-EXE  = text-analyse
+EXE  = text-plot
 
 #
 # Debug build settings
