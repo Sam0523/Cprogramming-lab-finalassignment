@@ -11,10 +11,14 @@
 
 #executable
 *.test
-text-analyse
+debug
+release
 
 #ctags
 tags
 
 #test text
 *.in
+
+#images
+*.p*m
