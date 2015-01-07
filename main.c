@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
 		}
 
 #ifdef DEBUG
-		//inorder_word(root);
+		inorder_word(root);
 		printf("---------------\n");
 		inorder_sen_bgn(sen_bgn_root, 0);
 		printf("N_x = %d\n", N_x);

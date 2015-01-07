@@ -6,7 +6,23 @@
 #include "text_analysis.h"
 
 // word delimiter
-#define DELIMITER " ,;:()[]{}<>\"\n\t@#$%^&*_+="
+#define DELIMITER " ,;:()[]{}<>/|\\\"\n\t@#$%^&*_+="
+
+// speciall words and abbrs that need to be handled differently
+char* special_and_abbrs[] =
+{
+	"co.",
+	"e.g.",
+	"i.e.",
+	"I",
+	"Inc.",
+	"Ltd.",
+	"Mr.",
+	"Mrs.",
+	"Ms.",
+	"No.",
+	NULL
+};
 
 static char find_most_common_begin(pBSTnode ptr, int depth);
 
@@ -53,8 +69,19 @@ void analyse(FILE* stream)
 		char* new = strtok(buf, DELIMITER);
 		while (new != NULL)
 		{
+			bool end_of_sentence = false;
+			// next new word
+			char *next = "";
+
+			// skip some processes on special words and abbrs
+			for (char** ptr = special_and_abbrs; *ptr!=NULL; ptr++)
+			{
+				if (strcmp(new, *ptr) == 0)
+					goto insert;
+			}
+
 			// change to lower case and deal with hyphens
-			char *ptr, *next;
+			char *ptr;
 			for (ptr = new, next = new  + 1;
 					*next != '\0';
 					ptr++, next++)
@@ -78,7 +105,6 @@ void analyse(FILE* stream)
 			}
 			*ptr = tolower(*ptr);
 
-			bool end_of_sentence = false;
 			// deal with the end of sentence
 			if (*ptr == '.' || *ptr == '?' || *ptr == '!')
 			{
@@ -88,6 +114,7 @@ void analyse(FILE* stream)
 					*ptr-- = '\0';
 			}
 
+insert:
 			insert(&root, new);
 
 			if (sen_len < 5)
