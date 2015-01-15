@@ -11,8 +11,13 @@ void* sen_bgn_wrd_create(const void *new_data_raw)
 	sen_bgn_wrd* new =
 		(sen_bgn_wrd*)malloc(sizeof(sen_bgn_wrd) + strlen(new_word) + 1);
 	new->count = 1;
-	new->next_root = (pBSTnode){NULL, sen_bgn_wrd_create, sen_bgn_wrd_update,
-		sen_bgn_wrd_str_cmp};
+	new->next_root =
+		(pBSTnode){
+			.node	= NULL,
+			.create	= sen_bgn_wrd_create,
+			.update	= sen_bgn_wrd_update,
+			.cmp	= sen_bgn_wrd_str_cmp
+		};
 	strcpy(new->raw, new_word);
 
 	return new;

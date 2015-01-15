@@ -21,6 +21,7 @@ static inline void update_freq_hard(word* new_word)
 				sizeof(frequent_hard[0]),
 				word_count_cmp) != NULL)
 		return;
+
 	frequent_hard[FREQENT_HARDS] = new_word;
 	for (word** ptr = frequent_hard + FREQENT_HARDS;
 			ptr > frequent_hard && (ptr[-1] == NULL ||
