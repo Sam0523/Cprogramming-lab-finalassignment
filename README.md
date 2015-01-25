@@ -20,7 +20,7 @@ Notes
 ```
 **Note**: hyphen are **NOT** considered to be same as a space!
 
-- I used binary search tree instead of linked lists so as to improve
+- Binary search tree is used instead of linked lists to improve
 performance.
 
 ### PART 3
