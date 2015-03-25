@@ -103,6 +103,6 @@ int main(int argc, char *argv[])
 
 static void print_usage(void)
 {
-	printf("Usage: %s file1 [file2 ...]\n", program_name);
+	printf("Usage: %s <file> [file ...]\n", program_name);
 	printf("Analyse English text files.\n");
 }
