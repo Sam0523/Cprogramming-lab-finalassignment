@@ -6,7 +6,7 @@
 #include "text_analysis.h"
 
 // word delimiter
-#define DELIMITER " ,;:()[]{}<>/|\\\"\n\t@#$%^&*_+="
+#define DELIMITER " ,;:()[]{}<>/|`\\\"\n\t@#$%^&*_+="
 
 // speciall words and abbrs that need to be handled differently
 static char* special_and_abbrs[] =
