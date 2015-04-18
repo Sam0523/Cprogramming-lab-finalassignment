@@ -16,7 +16,7 @@ Notes
 
 - These characters are considered to delimit words:
 ```
-,;:()[]{}<>"@#$%^&*_+=<space><newline><tab>
+,;:()[]{}<>/|`\"@#$%^&*_+=<space><newline><tab>
 ```
 **Note**: hyphen are **NOT** considered to be same as a space!
 
