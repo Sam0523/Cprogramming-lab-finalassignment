@@ -1,25 +1,25 @@
-#swap
+# swap
 *.sw*
 
-#backup
+# backup
 *~
 *.save
 *.old
 
-#object
-*.o
+# object
+*.[oa]
 
-#executable
+# executable
 text-analyse
 
-#ctags
+# ctags
 tags
 
-#test text
+# test text
 *.in
 
-#images
-*.p*m
+# cache
+*.cache
 
 # logs
 *.log
@@ -34,6 +34,5 @@ config.h.in
 config.status
 build-aux
 aclocal.m4
-autom4te.cache
-stamp-h?
+stamp-h1
 .dirstamp
