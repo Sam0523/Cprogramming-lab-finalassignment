@@ -7,31 +7,31 @@ typedef struct pnode pBSTnode;
 // pointer to a node of the BST
 struct pnode
 {
-	BSTnode *node;
+    BSTnode *node;
 
-	// create new data field by raw data
-	void* (*create)(const void* raw_data);
+    // create new data field by raw data
+    void* (*create)(const void* raw_data);
 
-	// update old data field
-	void (*update)(const void* data);
+    // update old data field
+    void (*update)(const void* data);
 
-	// compare data field and raw data
-	int (*cmp)(const void* data, const void* raw_data);
+    // compare data field and raw data
+    int (*cmp)(const void* data, const void* raw_data);
 };
 
 // node of a Binary Search Tree
 struct node
 {
-	void *data;
-	pBSTnode lchild, rchild;
+    void *data;
+    pBSTnode lchild, rchild;
 };
 
 // a data structure to store a word
 typedef struct
 {
-	unsigned count;		// how many times this word appears
-	unsigned char syllable;	// syllables count of the word
-	char raw[0];		// the word
+    unsigned count;		// how many times this word appears
+    unsigned char syllable;	// syllables count of the word
+    char raw[0];		// the word
 } word;
 
 // three function to handle a BST of word
@@ -42,9 +42,9 @@ int word_str_cmp(const void* data, const void* str);
 // a word of the beginning of a sentence
 typedef struct
 {
-	unsigned count;		// how many times this word appears
-	pBSTnode next_root;	// tree of the next words
-	char raw[0];		// this word
+    unsigned count;		// how many times this word appears
+    pBSTnode next_root;	// tree of the next words
+    char raw[0];		// this word
 } sen_bgn_wrd;
 
 // three function to handle the BST of sen_bgn_wrd
