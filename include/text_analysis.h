@@ -52,22 +52,6 @@ char* fgetline(FILE* stream);
 // return the syllables of a word
 int count_syllables(char *word);
 
-// insert new data into the binary search tree,
-// return newly inserted node or NULL
-BSTnode* insert(pBSTnode* ptr, const void* new_data_raw);
-
-// remove the whole binary search tree
-void destroy(pBSTnode *ptr);
-
-#ifdef DEBUG
-// output the word BST, use for debug only
-void inorder_word(pBSTnode ptr);
-
-// output the sentence beginning tree
-void inorder_sen_bgn(pBSTnode ptr, int indent);
-
-#endif // DEBUG
-
 // the binary search tree to store words
 extern pBSTnode root;
 

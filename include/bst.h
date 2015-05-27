@@ -26,4 +26,20 @@ struct node
     pBSTnode lchild, rchild;
 };
 
+// insert new data into the binary search tree,
+// return newly inserted node or NULL
+BSTnode* insert(pBSTnode* ptr, const void* new_data_raw);
+
+// remove the whole binary search tree
+void destroy(pBSTnode *ptr);
+
+#ifdef DEBUG
+// output the word BST, use for debug only
+void inorder_word(pBSTnode ptr);
+
+// output the sentence beginning tree
+void inorder_sen_bgn(pBSTnode ptr, int indent);
+
+#endif // DEBUG
+
 #endif // BST_H
