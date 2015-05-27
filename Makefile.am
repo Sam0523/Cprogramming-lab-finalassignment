@@ -11,4 +11,4 @@ text_analyse_SOURCES = \
 			src/syllablecount.c \
 			src/word.c \
 			src/sen_bgn_wrd.c
-noinst_HEADERS = include/text_analysis.h include/main.h
+noinst_HEADERS = include/text_analysis.h include/main.h include/bst.h
