@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <libgen.h>
 #include "text_analysis.h"
 #include "main.h"
 
 int main(int argc, char *argv[])
 {
-	program_name = argv[0];
+	program_name = basename(argv[0]);
 
 	if (argc == 1)
 	{
