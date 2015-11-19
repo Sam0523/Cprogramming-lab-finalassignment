@@ -7,23 +7,23 @@ typedef struct pnode pBSTnode;
 // pointer to a node of the BST
 struct pnode
 {
-    BSTnode *node;
+	BSTnode *node;
 
-    // create new data field by raw data
-    void* (*create)(const void* raw_data);
+	// create new data field by raw data
+	void* (*create)(const void* raw_data);
 
-    // update old data field
-    void (*update)(const void* data);
+	// update old data field
+	void (*update)(const void* data);
 
-    // compare data field and raw data
-    int (*cmp)(const void* data, const void* raw_data);
+	// compare data field and raw data
+	int (*cmp)(const void* data, const void* raw_data);
 };
 
 // node of a Binary Search Tree
 struct node
 {
-    void *data;
-    pBSTnode lchild, rchild;
+	void *data;
+	pBSTnode lchild, rchild;
 };
 
 // insert new data into the binary search tree,

@@ -6,9 +6,9 @@
 // a data structure to store a word
 typedef struct
 {
-    unsigned count;		// how many times this word appears
-    unsigned char syllable;	// syllables count of the word
-    char raw[0];		// the word
+	unsigned count;		// how many times this word appears
+	unsigned char syllable;	// syllables count of the word
+	char raw[0];		// the word
 } word;
 
 // three function to handle a BST of word
@@ -19,9 +19,9 @@ int word_str_cmp(const void* data, const void* str);
 // a word of the beginning of a sentence
 typedef struct
 {
-    unsigned count;		// how many times this word appears
-    pBSTnode next_root;	// tree of the next words
-    char raw[0];		// this word
+	unsigned count;		// how many times this word appears
+	pBSTnode next_root;	// tree of the next words
+	char raw[0];		// this word
 } sen_bgn_wrd;
 
 // three function to handle the BST of sen_bgn_wrd

@@ -6,10 +6,10 @@ char* program_name;
 
 // the binary search tree to store words
 pBSTnode root = {
-    .node	= NULL,
-    .create	= word_create,
-    .update	= word_update,
-    .cmp	= word_str_cmp
+	.node	= NULL,
+	.create	= word_create,
+	.update	= word_update,
+	.cmp	= word_str_cmp
 };
 
 // the top hardest words
@@ -26,10 +26,10 @@ int N_u;	// number of unique words
 
 // BST of first word of sentences beginning
 pBSTnode sen_bgn_root = {
-    .node	= NULL,
-    .create	= sen_bgn_wrd_create,
-    .update	= sen_bgn_wrd_update,
-    .cmp	= sen_bgn_wrd_str_cmp
+	.node	= NULL,
+	.create	= sen_bgn_wrd_create,
+	.update	= sen_bgn_wrd_update,
+	.cmp	= sen_bgn_wrd_str_cmp
 };
 
 // array of words in sentences beginning

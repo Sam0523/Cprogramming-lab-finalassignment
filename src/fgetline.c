@@ -5,43 +5,43 @@
 
 char* fgetline(FILE* stream)
 {
-    size_t buf_size = BUF_INIT_SIZE;
-    char* buf = (char*) malloc(buf_size * sizeof(char));
-    size_t len;
-    char *rval = NULL;
+	size_t buf_size = BUF_INIT_SIZE;
+	char* buf = (char*) malloc(buf_size * sizeof(char));
+	size_t len;
+	char *rval = NULL;
 
-    if (buf == NULL || feof(stream))
-	// malloc failed or end of file
-	return NULL;
+	if (buf == NULL || feof(stream))
+		// malloc failed or end of file
+		return NULL;
 
-    if (fgets(buf, buf_size, stream) != NULL)
-    {
-	len = strlen(buf);
-
-	while (buf[len - 1] != '\n' && !feof(stream))
+	if (fgets(buf, buf_size, stream) != NULL)
 	{
-	    // input isn't finish
-	    buf_size *= 2;
+		len = strlen(buf);
 
-	    buf = realloc(buf, buf_size * sizeof(char));
+		while (buf[len - 1] != '\n' && !feof(stream))
+		{
+			// input isn't finish
+			buf_size *= 2;
 
-	    if (fgets(buf + len, buf_size/2 + 1, stream) == NULL)
-		break;
+			buf = realloc(buf, buf_size * sizeof(char));
 
-	    len = strlen(buf);
+			if (fgets(buf + len, buf_size/2 + 1, stream) == NULL)
+				break;
+
+			len = strlen(buf);
+		}
+		if (buf[len - 1] == '\n')
+			buf[len - 1] = '\0';
+
+		// free the extra memory
+		rval = realloc(buf, len);
 	}
-	if (buf[len - 1] == '\n')
-	    buf[len - 1] = '\0';
+	if (ferror(stream))
+	{
+		//perror(NULL);
+		free(buf);
+		return NULL;
+	}
 
-	// free the extra memory
-	rval = realloc(buf, len);
-    }
-    if (ferror(stream))
-    {
-	//perror(NULL);
-	free(buf);
-	return NULL;
-    }
-
-    return rval;
+	return rval;
 }
