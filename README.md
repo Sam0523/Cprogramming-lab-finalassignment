@@ -3,7 +3,7 @@ Final Assignment for 2014
 
 This is the final assignment for Computer Programming, 2014 in USTC.
 
-[More info](Cprogramming-lab-finalassignment/blob/master/FinalAssignment_v2.pdf)
+[More info](FinalAssignment_v2.pdf)
 
 Notes
 --------------------------------
