@@ -61,6 +61,7 @@ void analyse(FILE* stream)
 			*end = '\0';
 			buf = realloc(buf, strlen(buf) + strlen(rest) + 1);
 			strcat(buf, rest);
+			free(rest);
 
 			end = buf + strlen(buf);
 		}
@@ -74,7 +75,7 @@ void analyse(FILE* stream)
 			char *next = "";
 
 			// skip some processes on special words and abbrs
-			for (char** ptr = special_and_abbrs; *ptr!=NULL; ptr++)
+			for (char** ptr = special_and_abbrs; *ptr != NULL; ptr++)
 			{
 				if (strcmp(new, *ptr) == 0)
 					goto insert;
@@ -82,7 +83,7 @@ void analyse(FILE* stream)
 
 			// change to lower case and deal with hyphens
 			char *ptr;
-			for (ptr = new, next = new  + 1; *next != '\0'; ptr++, next++)
+			for (ptr = new, next = new + 1; *next != '\0'; ptr++, next++)
 			{
 				*ptr = tolower(*ptr);
 
@@ -115,12 +116,12 @@ void analyse(FILE* stream)
 insert:
 			insert(&root, new);
 
-			if (sen_len < 5)
+			if (sen_len < MAX_COMMON_BGN)
 			{
 				ins_sen_bgn(sen_len == 0 ? &sen_bgn_root : NULL,
 						new);
-				sen_len++;
 			}
+			sen_len++;
 
 			if (end_of_sentence)
 				sen_len = 0;
